@@ -23,9 +23,10 @@ namespace USBDirSync
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-            DirectoryData dd = new DirectoryData(@"");
+            DirectoryData dd1 = new DirectoryData(@"");
+            DirectoryData dd2 = new DirectoryData(@"");
 
-            FhsksIO.WriteDirectoryDataToFile(dd, $"{FhsksIO.GetCorespondingFhsksFilePath(dd.RootPath)}");
+            var ans = Synchronizer.FormSynchronizationFileDataList(dd1, dd2);
         }
     }
 }

@@ -50,7 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystemWorks\DirectoryData.cs" />
-    <Compile Include="StorageWorks\Enum\LoadedFileStatus.cs" />
+    <Compile Include="FileSystemWorks\Enums\SyncConflictState.cs" />
+    <Compile Include="FileSystemWorks\Structs\SyncData.cs" />
+    <Compile Include="FileSystemWorks\Synchronizer.cs" />
+    <Compile Include="StorageWorks\Enums\LoadedFileStatus.cs" />
     <Compile Include="FileSystemWorks\FileData.cs" />
     <Compile Include="StorageWorks\FhsksIO.cs" />
     <Compile Include="StorageWorks\FileStatusLoader.cs" />

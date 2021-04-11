@@ -26,7 +26,7 @@ namespace USBDirSync.StorageWorks
             if (!Directory.Exists("FHSKS"))
                 Directory.CreateDirectory("FHSKS");
 
-            File.WriteAllText(StorageFilePath, JsonConvert.SerializeObject(DD, Formatting.Indented));
+            File.WriteAllText(StorageFilePath, JsonConvert.SerializeObject(DD));
         }
 
         public static DirectoryData ReadDirectoryDataFromFile(string StorageFilePath)

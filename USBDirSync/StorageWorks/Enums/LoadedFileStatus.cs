@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace USBDirSync.StorageWorks.Enum
+namespace USBDirSync.StorageWorks.Enums
 {
     public enum LoadedFileStatus
     {

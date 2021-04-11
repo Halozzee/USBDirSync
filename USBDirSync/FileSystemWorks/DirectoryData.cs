@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using USBDirSync.StorageWorks;
-using USBDirSync.StorageWorks.Enum;
+using USBDirSync.StorageWorks.Enums;
 
 namespace USBDirSync.FileSystemWorks
 {
