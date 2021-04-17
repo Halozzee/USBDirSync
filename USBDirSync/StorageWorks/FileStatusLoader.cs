@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using USBDirSync.FileSystemWorks;
+using USBDirSync.FileSystemWorks.DataStructures;
 using USBDirSync.StorageWorks.Enums;
 
 namespace USBDirSync.StorageWorks
@@ -65,6 +66,22 @@ namespace USBDirSync.StorageWorks
                             crnt.Hash = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
                         }
                     }
+                }
+            }
+        }
+
+        public static void AddNewFiles(List<LoadedFileStatus> lfs, DirectoryData currentDD) 
+        {
+            string[] files = Directory.GetFiles(currentDD.RootPath, "*", SearchOption.AllDirectories);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                string buff = files[i].Replace(currentDD.RootPath, "");
+
+                if (!currentDD.CheckFileExistanceByRelativePath(buff))
+                {
+                    currentDD.AddFileData(files[i]);
+                    lfs.Add(LoadedFileStatus.NotTouched);
                 }
             }
         }

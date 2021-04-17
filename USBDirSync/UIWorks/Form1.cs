@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using USBDirSync.FileSystemWorks;
+using USBDirSync.FileSystemWorks.DataStructures;
 using USBDirSync.StorageWorks;
 
 namespace USBDirSync
@@ -23,10 +24,12 @@ namespace USBDirSync
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-            DirectoryData dd1 = new DirectoryData(@"");
-            DirectoryData dd2 = new DirectoryData(@"");
+            DirectoryData dd1 = new DirectoryData(@"1");
+            DirectoryData dd2 = new DirectoryData(@"2");
 
-            var ans = Synchronizer.FormSynchronizationFileDataList(dd1, dd2);
+            var ans = ConflictSolver.FormConflictFileDataList(dd1, dd2);
+            ConflictSolver.PrioritizeConflictFileDataListAll(ans, FileSystemWorks.Enums.SyncPriority.Target);
+            SynchronizationExecuter.SynchronizeConflict(ans, dd1, dd2);
         }
     }
 }

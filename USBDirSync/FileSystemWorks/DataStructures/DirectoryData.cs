@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using USBDirSync.StorageWorks;
 using USBDirSync.StorageWorks.Enums;
 
-namespace USBDirSync.FileSystemWorks
+namespace USBDirSync.FileSystemWorks.DataStructures
 {
     public class DirectoryData
     {
@@ -18,13 +18,8 @@ namespace USBDirSync.FileSystemWorks
 
         public DirectoryData(string RootPath)
         {
-            if (RootPath[RootPath.Length - 1] != '/' || RootPath[RootPath.Length - 1] != '\\')
-            {
-                if (RootPath.Contains('/'))
-                    RootPath += '/';
-                else if (RootPath.Contains('\\'))
-                    RootPath += '\\';
-            }
+            this._md5 = MD5.Create();
+            RootPath = MakePathEndSlash(RootPath);
 
             this.RootPath = RootPath;
 
@@ -36,31 +31,46 @@ namespace USBDirSync.FileSystemWorks
                 BruteReadFiles();
         }
 
+        private static string MakePathEndSlash(string RootPath)
+        {
+            if (RootPath[RootPath.Length - 1] != '/' || RootPath[RootPath.Length - 1] != '\\')
+            {
+                if (RootPath.Contains('/'))
+                    RootPath += '/';
+                else if (RootPath.Contains('\\'))
+                    RootPath += '\\';
+            }
+
+            return RootPath;
+        }
+
         private void ReadFhsksAndGetLatestFileData() 
         {
             string FhsksFilePath = FhsksIO.GetCorespondingFhsksFilePath(RootPath);
-            DirectoryData currentDD = FhsksIO.ReadDirectoryDataFromFile(FhsksFilePath);
+            DirectoryData currentFhsksDD = FhsksIO.ReadDirectoryDataFromFile(FhsksFilePath);
 
-            List<LoadedFileStatus> statusList = FileStatusLoader.CheckFileStatusesOfDirectoryData(currentDD);
-            FileStatusLoader.RemoveNotExistingFiles(statusList, currentDD);
-            FileStatusLoader.UpdateModifiedFilesData(statusList, currentDD);
+            List<LoadedFileStatus> statusList = FileStatusLoader.CheckFileStatusesOfDirectoryData(currentFhsksDD);
+            FileStatusLoader.RemoveNotExistingFiles(statusList, currentFhsksDD);
+            FileStatusLoader.UpdateModifiedFilesData(statusList, currentFhsksDD);
+            FileStatusLoader.AddNewFiles(statusList, currentFhsksDD);
 
-            this.Files = currentDD.Files;
+            this.Files = currentFhsksDD.Files;
         }
 
         private void BruteReadFiles()
-        {
-            this._md5 = MD5.Create();
-            
+        {      
             string[] allfiles = Directory.GetFiles(this.RootPath, "*", SearchOption.AllDirectories);
 
             foreach (var item in allfiles)
             {
-                FileInfo FI = new FileInfo(item);
-                Files.Add(new FileData(GetRelativePathFromLocal(item), CalculateFileHash(item), FI.LastWriteTime));
+                AddFileData(item);
             }
+        }
 
-            this._md5 = null;
+        public void AddFileData(string FilePath) 
+        {
+            FileInfo FI = new FileInfo(FilePath);
+            Files.Add(new FileData(GetRelativePathFromLocal(FilePath), CalculateFileHash(FilePath), FI.LastWriteTime));
         }
 
         private string CalculateFileHash(string FileName) 

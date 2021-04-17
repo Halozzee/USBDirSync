@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace USBDirSync.FileSystemWorks
+namespace USBDirSync.FileSystemWorks.DataStructures
 {
     public class FileData
     {

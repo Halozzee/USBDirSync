@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace USBDirSync.FileSystemWorks.Enums
 {
-    public enum SyncConflictState
+    [Flags]
+    public enum SyncExecAccessPermit
     {
-        DoesntExistInSource,
-        DoesntExistInTarget,
-        OlderInSource,
-        NewerInSource,
-        UpToDate
+        None,
+        AccessToSource,
+        AccessToTarget,
+        AccessToBoth = AccessToSource | AccessToTarget
     }
 }

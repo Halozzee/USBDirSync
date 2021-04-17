@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using USBDirSync.FileSystemWorks;
+using USBDirSync.FileSystemWorks.DataStructures;
 
 namespace USBDirSync.StorageWorks
 {
