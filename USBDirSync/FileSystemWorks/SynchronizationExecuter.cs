@@ -9,9 +9,22 @@ using USBDirSync.FileSystemWorks.Enums;
 
 namespace USBDirSync.FileSystemWorks
 {
+    /// <summary>
+    /// Singleton class that performs execution of synchronization based on the Conflict Lists made by ConflictSolver singleton class.
+    /// </summary>
     public static class SynchronizationExecuter
     {
+        /// <summary>
+        /// Flag enum that represents a limiter for SynchronizationExecuter in writing/changing files in directories.
+        /// </summary>
         public static SyncExecAccessPermit accessOption;
+
+        /// <summary>
+        /// Function that performs synchronization actions based of SyncData parameters and specific SyncExecAccessPermit.
+        /// </summary>
+        /// <param name="ConflictList">The list of SyncData's which specifies how conflict of the specific file should be solved.</param>
+        /// <param name="SourceData">The directory being synchronized.</param>
+        /// <param name="TargetData">The comparing directory to be synchronized with.</param>
         public static void SynchronizeConflict(List<SyncData> ConflictList, DirectoryData SourceData, DirectoryData TargetData) 
         {
             accessOption = SyncExecAccessPermit.AccessToBoth;
@@ -30,7 +43,7 @@ namespace USBDirSync.FileSystemWorks
                         break;
                     case SyncConflictState.OlderInSource:
                     case SyncConflictState.NewerInSource:
-                        SolveTimedPrioritizedConflict(SourceData, TargetData, item);
+                        SolveStatedPrioritizedConflict(SourceData, TargetData, item);
                         break;
                     default:
                         break;
@@ -38,6 +51,12 @@ namespace USBDirSync.FileSystemWorks
             }
         }
 
+        /// <summary>
+        /// Function that performs action of synchronization to a file which doesnt exist in one of the two directories based on SyncData parameters.
+        /// </summary>
+        /// <param name="SourceData">The directory being synchronized.</param>
+        /// <param name="TargetData">The comparing directory to be synchronized with.</param>
+        /// <param name="SD">Corresponding SyncData with parameters to decide what to do with the file.</param>
         private static void SolveNonExistantFileToOtherDirectory(DirectoryData SourceData, DirectoryData TargetData, SyncData SD)
         {
             switch (SD.SAS)
@@ -57,6 +76,11 @@ namespace USBDirSync.FileSystemWorks
             }
         }
 
+        /// <summary>
+        /// Function that Deletes the existing file in the destination and then Copies it from the Source directory.
+        /// </summary>
+        /// <param name="SourceFile">Path to a file being copied</param>
+        /// <param name="TargetFile">Path to where the file should be copied.</param>
         private static void UpdateExistingFile(string SourceFile, string TargetFile) 
         {
             if (File.Exists(TargetFile))
@@ -64,7 +88,13 @@ namespace USBDirSync.FileSystemWorks
             File.Copy(SourceFile, TargetFile);
         }
 
-        private static void SolveTimedPrioritizedConflict(DirectoryData SourceData, DirectoryData TargetData, SyncData SD) 
+        /// <summary>
+        /// Function that performs action of synchronization based on the corresponding SyncData which has to contain SyncActionState and SyncPriority.
+        /// </summary>
+        /// <param name="SourceData">The directory being synchronized.</param>
+        /// <param name="TargetData">The comparing directory to be synchronized with.</param>
+        /// <param name="SD">Corresponding SyncData with parameters to decide what to do with the file.</param>
+        private static void SolveStatedPrioritizedConflict(DirectoryData SourceData, DirectoryData TargetData, SyncData SD) 
         {
             switch (SD.SAS)
             {
