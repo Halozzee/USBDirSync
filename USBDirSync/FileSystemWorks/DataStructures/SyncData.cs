@@ -21,11 +21,11 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// </summary>
         public SyncConflictState SCS;
         /// <summary>
-        /// Priority that says what version (source one or the target one) of the corresponding file should be an exemplar.
-        /// For example, when sharing file, if the Source priority is set and file is older in Source than in Target, no matter what
+        /// Direction that says what version (source one or the target one) of the corresponding file should be an exemplar.
+        /// For example, when sharing file, if the Source direction is set and file is older in Source than in Target, no matter what
         /// the Source version of the file will be shared.
         /// </summary>
-        public SyncPriority SP;
+        public SyncDirection SD;
         /// <summary>
         /// The action that will be applied to the corresponding file. 
         /// (Skip file processing/Delete file/Share file to the other directory/Make the copy of the file with a simular name)
@@ -36,31 +36,31 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         {
             FD = fD;
             SCS = sCS;
-            SP = SyncPriority.None;
-            SAS = SyncActionState.Share;
+            SD = SyncDirection.None;
+            SAS = SyncActionState.Skip;
         }
 
         public SyncData(FileData fD, SyncConflictState sCS, SyncActionState sAS)
         {
             FD = fD;
             SCS = sCS;
-            SP = SyncPriority.None;
+            SD = SyncDirection.None;
             SAS = sAS;
         }
 
-        public SyncData(FileData fD, SyncConflictState sCS, SyncPriority sP)
+        public SyncData(FileData fD, SyncConflictState sCS, SyncDirection sP)
         {
             FD = fD;
             SCS = sCS;
-            SP = sP;
-            SAS = SyncActionState.Share;
+            SD = sP;
+            SAS = SyncActionState.Skip;
         }
 
-        public SyncData(FileData fD, SyncConflictState sCS, SyncPriority sP, SyncActionState sAS)
+        public SyncData(FileData fD, SyncConflictState sCS, SyncDirection sP, SyncActionState sAS)
         {
             FD = fD;
             SCS = sCS;
-            SP = sP;
+            SD = sP;
             SAS = sAS;
         }
     }

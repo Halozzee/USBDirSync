@@ -10,7 +10,7 @@ namespace USBDirSync.FileSystemWorks
 {
     /// <summary>
     /// Singleton class that performs actions of making conflict lists (defining what FileData's are not equal in hash and what are non-existant in the other 
-    /// directory), prioritazing them (making SyncPriority for synchronization) and setting an action state for each of the FileData's.
+    /// directory), prioritazing them (making SyncDirection for synchronization) and setting an action state for each of the FileData's.
     /// </summary>
     public static class ConflictSolver
     {
@@ -34,8 +34,9 @@ namespace USBDirSync.FileSystemWorks
                         continue;
 
                     SyncConflictState currentItemSCS = CompareFileDateTimeToState(item, TargetData.FindFileGetFileData(item.RelativePath));
+                    currentItemSCS |= CompareFileSizesToState(item, TargetData.FindFileGetFileData(item.RelativePath));
 
-                    if(currentItemSCS != SyncConflictState.UpToDate)
+                    if (currentItemSCS != SyncConflictState.UpToDate)
                         result.Add(new SyncData(item, currentItemSCS));
                 }
                 else
@@ -55,19 +56,19 @@ namespace USBDirSync.FileSystemWorks
         }
 
         /// <summary>
-        /// Function that prioriteze all the SyncData for a specific SyncPriority.
+        /// Function that prioriteze all the SyncData for a specific SyncDirection.
         /// </summary>
         /// <param name="SDList">The list of the SyncData to be prioritized.</param>
-        /// <param name="SPToSet">Specific SyncPriority to be set.</param>
-        public static void PrioritizeConflictFileDataListAll(List<SyncData> SDList, SyncPriority SPToSet)
+        /// <param name="SPToSet">Specific SyncDirection to be set.</param>
+        public static void PrioritizeConflictFileDataListAll(List<SyncData> SDList, SyncDirection SPToSet)
         {
             for (int i = 0; i < SDList.Count; i++)
             {
-                SDList[i].SP = SPToSet;
+                SDList[i].SD = SPToSet;
             }
         }
 
-        //public static void PrioritizeConflictFileDataListSingle(List<SyncData> SDList, SyncPriority SPToSet)
+        //public static void PrioritizeConflictFileDataListSingle(List<SyncData> SDList, SyncDirection SPToSet)
         //{
         //}
 
@@ -95,6 +96,22 @@ namespace USBDirSync.FileSystemWorks
                 return SyncConflictState.NewerInSource;
             else
                 return SyncConflictState.OlderInSource;
+        }
+
+        /// <summary>
+        /// Function that compared two FileData's to determine whether the Files are up to date or one of them is bigger than the other one.
+        /// </summary>
+        /// <param name="SourceData">First FileData representing the file.</param>
+        /// <param name="TargetData">Second FileData representing the file.</param>
+        /// <returns>SyncConflictState corresponding to their size comparasent.</returns>
+        private static SyncConflictState CompareFileSizesToState(FileData SourceData, FileData TargetData)
+        {
+            if (TargetData.Size == SourceData.Size)
+                return SyncConflictState.UpToDate;
+            else if (TargetData.Size < SourceData.Size)
+                return SyncConflictState.BiggerInSource;
+            else
+                return SyncConflictState.SmallerInSource;
         }
     }
 }

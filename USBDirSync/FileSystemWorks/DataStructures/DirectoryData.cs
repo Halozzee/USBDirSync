@@ -100,7 +100,7 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         public void AddFileData(string FilePath) 
         {
             FileInfo FI = new FileInfo(FilePath);
-            Files.Add(new FileData(GetRelativePathFromLocal(FilePath), CalculateFileHash(FilePath), FI.LastWriteTime));
+            Files.Add(new FileData(GetRelativePathFromLocal(FilePath), CalculateFileHash(FilePath), FI.LastWriteTime, FI.Length));
         }
 
         /// <summary>

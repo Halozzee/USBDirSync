@@ -24,11 +24,17 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// </summary>
         public DateTime LastModifiedTime;
 
-        public FileData(string RelativePath, string Hash, DateTime LastModifiedTime)
+        /// <summary>
+        /// Size of the file in bytes.
+        /// </summary>
+        public long Size;
+
+        public FileData(string RelativePath, string Hash, DateTime LastModifiedTime, long Size)
         {
             this.RelativePath = RelativePath;
             this.Hash = Hash;
             this.LastModifiedTime = LastModifiedTime;
+            this.Size = Size;
         }
     }
 }

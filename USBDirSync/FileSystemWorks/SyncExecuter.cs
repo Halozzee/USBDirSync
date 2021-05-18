@@ -12,12 +12,13 @@ namespace USBDirSync.FileSystemWorks
     /// <summary>
     /// Singleton class that performs execution of synchronization based on the Conflict Lists made by ConflictSolver singleton class.
     /// </summary>
-    public static class SynchronizationExecuter
+    public static class SyncExecuter
     {
         /// <summary>
-        /// Flag enum that represents a limiter for SynchronizationExecuter in writing/changing files in directories.
+        /// Flag enum that represents a limiter for SynchronizationExecuter in writing files in directories in which file doesnt exist
+        /// from those in which that file does exist.
         /// </summary>
-        public static SyncExecAccessPermit accessOption;
+        public static SyncShareAllowanceNonExistnant accessOption;
 
         /// <summary>
         /// Function that performs synchronization actions based of SyncData parameters and specific SyncExecAccessPermit.
@@ -27,27 +28,21 @@ namespace USBDirSync.FileSystemWorks
         /// <param name="TargetData">The comparing directory to be synchronized with.</param>
         public static void SynchronizeConflict(List<SyncData> ConflictList, DirectoryData SourceData, DirectoryData TargetData) 
         {
-            accessOption = SyncExecAccessPermit.AccessToBoth;
-
             foreach (var item in ConflictList)
             {
-                switch (item.SCS)
+                if (item.SCS.HasFlag(SyncConflictState.DoesntExistInSource))
                 {
-                    case SyncConflictState.DoesntExistInSource:
-                        if (accessOption.HasFlag(SyncExecAccessPermit.AccessToSource))
-                            SolveNonExistantFileToOtherDirectory(SourceData, TargetData, item);
-                        break;
-                    case SyncConflictState.DoesntExistInTarget:
-                        if (accessOption.HasFlag(SyncExecAccessPermit.AccessToTarget))
-                            SolveNonExistantFileToOtherDirectory(TargetData, SourceData, item);
-                        break;
-                    case SyncConflictState.OlderInSource:
-                    case SyncConflictState.NewerInSource:
-                        SolveStatedPrioritizedConflict(SourceData, TargetData, item);
-                        break;
-                    default:
-                        break;
+                    if (accessOption.HasFlag(SyncShareAllowanceNonExistnant.ShareToSource))
+                        SolveNonExistantFileToOtherDirectory(SourceData, TargetData, item);
                 }
+                else if (item.SCS.HasFlag(SyncConflictState.DoesntExistInTarget))
+                {
+                    if (accessOption.HasFlag(SyncShareAllowanceNonExistnant.ShareToTarget))
+                        SolveNonExistantFileToOtherDirectory(TargetData, SourceData, item);
+                }
+                else if(item.SCS.HasFlag(SyncConflictState.OlderInSource) || item.SCS.HasFlag(SyncConflictState.NewerInSource) ||
+                    item.SCS.HasFlag(SyncConflictState.BiggerInSource) || item.SCS.HasFlag(SyncConflictState.OlderInSource))
+                    SolveStatedPrioritizedConflict(SourceData, TargetData, item);
             }
         }
 
@@ -89,7 +84,7 @@ namespace USBDirSync.FileSystemWorks
         }
 
         /// <summary>
-        /// Function that performs action of synchronization based on the corresponding SyncData which has to contain SyncActionState and SyncPriority.
+        /// Function that performs action of synchronization based on the corresponding SyncData which has to contain SyncActionState and SyncDirection.
         /// </summary>
         /// <param name="SourceData">The directory being synchronized.</param>
         /// <param name="TargetData">The comparing directory to be synchronized with.</param>
@@ -101,19 +96,17 @@ namespace USBDirSync.FileSystemWorks
                 case SyncActionState.Skip:
                     return;
                 case SyncActionState.Delete:
-                    if (accessOption.HasFlag(SyncExecAccessPermit.AccessToTarget))
                         File.Delete(TargetData.FindFileGetLocalPath(SD.FD.RelativePath));
-                    if (accessOption.HasFlag(SyncExecAccessPermit.AccessToSource))
                         File.Delete(SourceData.FindFileGetLocalPath(SD.FD.RelativePath));
                     break;
                 case SyncActionState.Share:
-                    if (SD.SP != SyncPriority.None)
+                    if (SD.SD != SyncDirection.None)
                     {
-                        if (SD.SP == SyncPriority.Target && accessOption.HasFlag(SyncExecAccessPermit.AccessToSource))
+                        if (SD.SD == SyncDirection.Target)
                         {
                             UpdateExistingFile(TargetData.FindFileGetLocalPath(SD.FD.RelativePath), SourceData.FindFileGetLocalPath(SD.FD.RelativePath));
                         }
-                        else if (SD.SP == SyncPriority.Source && accessOption.HasFlag(SyncExecAccessPermit.AccessToTarget))
+                        else if (SD.SD == SyncDirection.Source)
                         {
                             UpdateExistingFile(SourceData.FindFileGetLocalPath(SD.FD.RelativePath), TargetData.FindFileGetLocalPath(SD.FD.RelativePath));
                         }

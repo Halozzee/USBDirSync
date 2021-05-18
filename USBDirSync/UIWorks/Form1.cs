@@ -29,22 +29,24 @@ namespace USBDirSync
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
+
             dd1 = new DirectoryData(@"1");
             dd2 = new DirectoryData(@"2");
 
             CurrentSession = ConflictSolver.FormConflictFileDataList(dd1, dd2);
 
-            FillTheTable();
+            string FileContent = @"!*.txt #3#SZ:(S>T)->Shr(S) #12#EX:(T)->Shr(T)";
 
-            //ConflictSolver.PrioritizeConflictFileDataListAll(ans, FileSystemWorks.Enums.SyncPriority.Target);
-            //SynchronizationExecuter.SynchronizeConflict(ans, dd1, dd2);
+            SyncClassifier.TestDebugFunction(CurrentSession, FileContent);
+
+            FillTheTable();
         }
 
         private void FillTheTable() 
         {
             foreach (var item in CurrentSession)
             {
-                dataGridView1.Rows.Add(item.SAS.ToString(), item.SP.ToString(), item.SCS.ToString(), item.FD.RelativePath);
+                dataGridView1.Rows.Add(item.SAS.ToString(), item.SD.ToString(), item.SCS.ToString(), item.FD.RelativePath);
             }
         }
 
@@ -81,8 +83,8 @@ namespace USBDirSync
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SynchronizationExecuter.accessOption = SyncExecAccessPermit.AccessToBoth;
-            SynchronizationExecuter.SynchronizeConflict(CurrentSession, dd1, dd2);
+            SyncExecuter.accessOption = SyncShareAllowanceNonExistnant.ShareToBoth;
+            SyncExecuter.SynchronizeConflict(CurrentSession, dd1, dd2);
         }
     }
 }
