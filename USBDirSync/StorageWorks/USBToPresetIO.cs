@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace USBDirSync.StorageWorks
 {
+    /// <summary>
+    /// Singleton class that performs Input/Output actions for USBToPreset files.
+    /// </summary>
     public static class USBToPresetIO
     {
         public static USBToPresetData ReadUSBToPresetDataFromFile(string PresetFilePath)

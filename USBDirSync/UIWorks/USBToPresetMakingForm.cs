@@ -45,10 +45,12 @@ namespace USBDirSync.UIWorks
         private void MakeLinkBtn_Click(object sender, EventArgs e)
         {
             USBToPresetData UPD = new USBToPresetData();
-            UPD.USBDeviceName = (string)DevicesComboBox.SelectedItem;
-            UPD.USBDeviceID = _uSBDevices.Find(x => x.USBDeviceName == UPD.USBDeviceName).USBDeviceID;
+            UPD.DeviceData = new USBConnectedEventArgs();
+            UPD.DeviceData.USBDeviceName = (string)DevicesComboBox.SelectedItem;
+            UPD.DeviceData.USBDeviceID = _uSBDevices.Find(x => x.USBDeviceName == UPD.DeviceData.USBDeviceName).USBDeviceID;
+            UPD.PresetName = (string)PresetsComboBox.SelectedItem;
 
-            USBToPresetIO.WriteUSBToPresetDataToFile(UPD, "USBToPreset\\" + "Test" + ".json");
+            USBToPresetIO.WriteUSBToPresetDataToFile(UPD, "USBToPreset\\" + UPD.DeviceData.USBDeviceName + ".json");
         }
     }
 }

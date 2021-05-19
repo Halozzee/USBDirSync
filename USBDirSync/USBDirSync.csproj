@@ -67,6 +67,7 @@
     <Compile Include="StorageWorks\FileStatusLoader.cs" />
     <Compile Include="StorageWorks\PresetData.cs" />
     <Compile Include="StorageWorks\PresetIO.cs" />
+    <Compile Include="USBWorks\PresetAppliedEventArgs.cs" />
     <Compile Include="USBWorks\USBDevicesReader.cs" />
     <Compile Include="StorageWorks\USBToPresetData.cs" />
     <Compile Include="StorageWorks\USBToPresetIO.cs" />
@@ -92,6 +93,7 @@
     </Compile>
     <Compile Include="USBWorks\USBConnectedEventArgs.cs" />
     <Compile Include="USBWorks\USBConnectionNotifier.cs" />
+    <Compile Include="USBWorks\USBPresetApplier.cs" />
     <EmbeddedResource Include="UIWorks\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

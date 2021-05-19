@@ -25,6 +25,18 @@ namespace USBDirSync
             InitializeComponent();
             LoadPresetsComboBox();
             USBConnectionNotifier.Initialize();
+            USBPresetApplier.Initialize();
+            USBPresetApplier.PresetApplied += USBPresetApplier_OnPresetApplied;
+        }
+
+        private void USBPresetApplier_OnPresetApplied(object sender, PresetAppliedEventArgs e)
+        {
+            int index = PresetsComboBox.Items.IndexOf(e.AppliedPresetName);
+
+            PresetsComboBox.Invoke(((MethodInvoker)delegate
+            {
+                PresetsComboBox.SelectedIndex = index;
+            }));
         }
 
         private void LoadPresetsComboBox()

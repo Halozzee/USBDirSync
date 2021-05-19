@@ -13,9 +13,9 @@ namespace USBDirSync.FileSystemWorks.Enums
     [Flags]
     public enum SyncShareAllowanceNonExistnant
     {
-        None,
-        ShareToSource,
-        ShareToTarget,
+        None = 1,
+        ShareToSource = 2,
+        ShareToTarget = 4,
         ShareToBoth = ShareToSource | ShareToTarget
     }
 }
