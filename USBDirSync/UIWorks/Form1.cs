@@ -13,6 +13,7 @@ using USBDirSync.FileSystemWorks;
 using USBDirSync.FileSystemWorks.DataStructures;
 using USBDirSync.FileSystemWorks.Enums;
 using USBDirSync.StorageWorks;
+using USBDirSync.UIWorks;
 
 namespace USBDirSync
 {
@@ -21,29 +22,39 @@ namespace USBDirSync
         public Form1()
         {
             InitializeComponent();
+            LoadPresetsComboBox();
+        }
+
+        private void LoadPresetsComboBox()
+        {
+            PresetsComboBox.Items.Clear();
+            PresetsComboBox.Items.Add("Empty");
+            string[] presentsList = PresetIO.ReadPresetsList();
+            if (presentsList != null && presentsList.Length > 0)
+                PresetsComboBox.Items.AddRange(presentsList);
+            PresetsComboBox.SelectedIndex = 0;
         }
 
         List<SyncData> CurrentSession;
+        PresetData CurrentPD;
         DirectoryData dd1;
         DirectoryData dd2;
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-
-            dd1 = new DirectoryData(@"1");
-            dd2 = new DirectoryData(@"2");
+            dd1 = new DirectoryData(CurrentPD.SourceDirectoryPath);
+            dd2 = new DirectoryData(CurrentPD.TargetDirectoryPath);
 
             CurrentSession = ConflictSolver.FormConflictFileDataList(dd1, dd2);
 
-            string FileContent = @"!*.txt #3#SZ:(S>T)->Shr(S) #12#EX:(T)->Shr(T)";
-
-            SyncClassifier.TestDebugFunction(CurrentSession, FileContent);
+            SyncClassifier.ClassifySyncDatas(CurrentSession, CurrentPD.StatementDataString);
 
             FillTheTable();
         }
 
         private void FillTheTable() 
         {
+            dataGridView1.Rows.Clear();
             foreach (var item in CurrentSession)
             {
                 dataGridView1.Rows.Add(item.SAS.ToString(), item.SD.ToString(), item.SCS.ToString(), item.FD.RelativePath);
@@ -85,6 +96,22 @@ namespace USBDirSync
         {
             SyncExecuter.accessOption = SyncShareAllowanceNonExistnant.ShareToBoth;
             SyncExecuter.SynchronizeConflict(CurrentSession, dd1, dd2);
+        }
+
+        private void PresetsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(((string)PresetsComboBox.SelectedItem) != "Empty")
+                CurrentPD = PresetIO.ReadDirectoryDataFromFile((string)PresetsComboBox.SelectedItem);
+        }
+
+        private void MakePresetBtn_Click(object sender, EventArgs e)
+        {
+            PresetMakingForm pmf = new PresetMakingForm();
+
+            if (pmf.ShowDialog() == DialogResult.OK)
+            {
+                LoadPresetsComboBox();
+            }
         }
     }
 }

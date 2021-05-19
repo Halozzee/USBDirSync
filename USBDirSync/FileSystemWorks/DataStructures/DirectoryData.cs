@@ -28,6 +28,8 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// </summary>
         private readonly MD5 _md5;
 
+        public DirectoryData() { }
+
         public DirectoryData(string RootPath)
         {
             this._md5 = MD5.Create();
@@ -41,6 +43,8 @@ namespace USBDirSync.FileSystemWorks.DataStructures
             }
             else
                 BruteReadFiles();
+
+            SaveHashes();
         }
 
         /// <summary>
@@ -189,6 +193,11 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         public bool CheckFileExistanceByRelativePath(string RelativePath) 
         {
             return Files.FindIndex(x => x.RelativePath == RelativePath) != - 1;
+        }
+
+        public void SaveHashes() 
+        {
+           FhsksIO.WriteDirectoryDataToFile(this, FhsksIO.GetCorrespondingFhsksFilePath(this.RootPath));
         }
     }
 }

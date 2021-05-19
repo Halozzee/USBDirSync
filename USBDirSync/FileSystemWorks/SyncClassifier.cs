@@ -80,7 +80,7 @@ namespace USBDirSync.FileSystemWorks
      *      ! *.txt LMT:(S<T)->Shr(T) DOES NOT OVERRIDE BOTH 1 AND 2.
      *      
      *  !!!Important!!!
-     *      After all the masks, in the end of the file have to be stated what to do with those files which didnt passed the masks.
+     *      After all the masks, in the end of the file may be stated what to do with those files which havent passed the masks.
      *      
      *      For example:
      *          !ForLeft EX:(S)->Shr(S)
@@ -89,14 +89,11 @@ namespace USBDirSync.FileSystemWorks
      *      ForLeft marks for the files that wasnt applied to masks.
      */
 
-
     /// <summary>
     /// Singleton class that performs tasks of automated assignment SyncActionState based of passed preset paratemers.
     /// </summary>
     public static class SyncClassifier
     {
-
-        //!!!!NEEDS TO BE MOVED TO STORAGEWORKS!!!!
         private static List<string> ExtractStatements(string FileContent)
         {
             string[] statements = FileContent.Split(new string[] { "!" }, StringSplitOptions.RemoveEmptyEntries);
@@ -121,9 +118,9 @@ namespace USBDirSync.FileSystemWorks
             return statementDatas;
         }
 
-        public static void TestDebugFunction(List<SyncData> syncs, string FileContent) 
+        public static void ClassifySyncDatas(List<SyncData> syncs, string StatementDataString) 
         {
-            List<string> statements = ExtractStatements(FileContent);
+            List<string> statements = ExtractStatements(StatementDataString);
             List<StatementData> statementDatas = ExtractStatementsDataFromStatementStringList(statements);
 
             ClassifyByRules(statementDatas, syncs);
@@ -154,20 +151,24 @@ namespace USBDirSync.FileSystemWorks
                     if (syncRule.Action == "Dlt")
                     {
                         syncData.SAS = SyncActionState.Delete;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Skp")
                     {
                         syncData.SAS = SyncActionState.Skip;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
                         syncData.SD = SyncDirection.Target;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
                         syncData.SD = SyncDirection.Target;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                 }
             }
@@ -178,20 +179,24 @@ namespace USBDirSync.FileSystemWorks
                     if (syncRule.Action == "Dlt")
                     {
                         syncData.SAS = SyncActionState.Delete;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Skp")
                     {
                         syncData.SAS = SyncActionState.Skip;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
                         syncData.SD = SyncDirection.Source;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
                         syncData.SD = SyncDirection.Source;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                 }
             }
@@ -206,20 +211,24 @@ namespace USBDirSync.FileSystemWorks
                     if (syncRule.Action == "Dlt")
                     {
                         syncData.SAS = SyncActionState.Delete;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Skp")
                     {
                         syncData.SAS = SyncActionState.Skip;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
                         syncData.SD = SyncDirection.Source;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
                         syncData.SD = SyncDirection.Source;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                 }
             }
@@ -230,20 +239,24 @@ namespace USBDirSync.FileSystemWorks
                     if (syncRule.Action == "Dlt")
                     {
                         syncData.SAS = SyncActionState.Delete;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Skp")
                     {
                         syncData.SAS = SyncActionState.Skip;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
                         syncData.SD = SyncDirection.Target;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
                         syncData.SD = SyncDirection.Target;
+                        syncData.WasTriggeredBySyncRule = true;
                     }
                 }
             }
@@ -253,11 +266,13 @@ namespace USBDirSync.FileSystemWorks
         {
             if (syncData.SCS.HasFlag(SyncConflictState.DoesntExistInTarget) && (syncRule.CompareOperationArgument == "T"))
             {
+                //****
                 syncData.SAS = SyncActionState.Skip;
                 return;
             }
             if (syncData.SCS.HasFlag(SyncConflictState.DoesntExistInSource) && (syncRule.CompareOperationArgument == "S"))
             {
+                //****
                 syncData.SAS = SyncActionState.Skip;
                 return;
             }
@@ -265,10 +280,12 @@ namespace USBDirSync.FileSystemWorks
             if (syncRule.Action == "Dlt")
             {
                 syncData.SAS = SyncActionState.Delete;
+                syncData.WasTriggeredBySyncRule = true;
             }
             else if (syncRule.Action == "Skp")
             {
                 syncData.SAS = SyncActionState.Skip;
+                syncData.WasTriggeredBySyncRule = true;
             }
             else if (syncRule.Action == "Shr")
             {
@@ -278,6 +295,7 @@ namespace USBDirSync.FileSystemWorks
                     syncData.SD = SyncDirection.Source;
                 else
                     syncData.SD = SyncDirection.Target;
+                syncData.WasTriggeredBySyncRule = true;
             }
             else if (syncRule.Action == "Cpy")
             {
@@ -287,34 +305,28 @@ namespace USBDirSync.FileSystemWorks
                     syncData.SD = SyncDirection.Source;
                 else
                     syncData.SD = SyncDirection.Target;
+                syncData.WasTriggeredBySyncRule = true;
             }
         }
 
-        private static bool RunRule(SyncRule syncRule, SyncData syncData) 
+        private static void RunRule(SyncRule syncRule, SyncData syncData) 
         {
-            bool wasRunned = false;
-
             if (syncRule.CompareOperation == "EX")
             {
                 AssignSyncActionAndSyncDirection(syncData, syncRule);
-                wasRunned = true;
             }
             else if ((syncData.SCS.HasFlag(SyncConflictState.OlderInSource) || syncData.SCS.HasFlag(SyncConflictState.NewerInSource)) 
                 && syncRule.CompareOperation == "LMT")
             {
                 AssignSyncActionAndSyncDirection(syncData, syncRule);
-                wasRunned = true;
             }
             else if ((syncData.SCS.HasFlag(SyncConflictState.SmallerInSource) || syncData.SCS.HasFlag(SyncConflictState.BiggerInSource)) 
                 && syncRule.CompareOperation == "SZ")
             {
                 AssignSyncActionAndSyncDirection(syncData, syncRule);
-                wasRunned = true;
             }
             else
                 syncData.SAS = SyncActionState.Skip;
-
-            return wasRunned;
         }
 
         private static bool FileFitsMask(string FileName, string FileMask)
@@ -325,7 +337,10 @@ namespace USBDirSync.FileSystemWorks
 
         public static void ClassifyByRules(List<StatementData> statementDatas, List<SyncData> syncs) 
         {
-            bool[] hasBeenChecked = new bool[syncs.Count];
+            HashSet<string> usedFileMasks = new HashSet<string>();
+            bool[] fileMaskPassed = new bool[syncs.Count];
+            StatementData forLeftStatementData = statementDatas[statementDatas.Count - 1];
+            statementDatas.RemoveAt(statementDatas.Count - 1);
 
             for (int i = 0; i < syncs.Count; i++)
             {
@@ -334,19 +349,35 @@ namespace USBDirSync.FileSystemWorks
 
                 for (int j = 0; j < statementDatas.Count; j++)
                 {
-                    if (hasBeenChecked[i])
+                    if (syncs[i].WasTriggeredBySyncRule)
                         break;
 
                     if (FileFitsMask(fileName, statementDatas[j].FileMask))
                     {
+                        fileMaskPassed[i] = true;
+                        usedFileMasks.Add(statementDatas[j].FileMask);
                         for (int k = 0; k < statementDatas[j].SyncRules.Count; k++)
                         {
-                            if (hasBeenChecked[i])
+                            if (syncs[i].WasTriggeredBySyncRule)
                                 break;
 
-                            hasBeenChecked[i] = RunRule(statementDatas[j].SyncRules[k], syncs[i]);
+                            RunRule(statementDatas[j].SyncRules[k], syncs[i]);
                         }
                     }
+                }
+            }
+
+            for (int i = 0; i < syncs.Count; i++)
+            {
+                if (syncs[i].WasTriggeredBySyncRule /*<= Might be reworked =>*/ || fileMaskPassed[i])
+                    continue;
+
+                for (int k = 0; k < forLeftStatementData.SyncRules.Count; k++)
+                {
+                    if (syncs[i].WasTriggeredBySyncRule)
+                        break;
+
+                    RunRule(forLeftStatementData.SyncRules[k], syncs[i]);
                 }
             }
         }

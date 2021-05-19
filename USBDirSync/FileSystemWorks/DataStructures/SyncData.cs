@@ -32,6 +32,12 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// </summary>
         public SyncActionState SAS;
 
+        /// <summary>
+        /// Flag that shows if the SyncData was classified by the SyncClassifier rules.
+        /// True - was classified by rule. False - wasnt.
+        /// </summary>
+        public bool WasTriggeredBySyncRule;
+
         public SyncData(FileData fD, SyncConflictState sCS)
         {
             FD = fD;
