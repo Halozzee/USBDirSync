@@ -26,11 +26,12 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// <summary>
         /// The instance of MD5 hash algorithm hash taker.
         /// </summary>
-        private readonly MD5 _md5;
+        private MD5 _md5;
+
+        public DirectoryData() { }
 
         public DirectoryData(string RootPath)
         {
-            this._md5 = MD5.Create();
             RootPath = MakePathEndSlash(RootPath);
 
             this.RootPath = RootPath;
@@ -41,6 +42,8 @@ namespace USBDirSync.FileSystemWorks.DataStructures
             }
             else
                 BruteReadFiles();
+
+            SaveHashes();
         }
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         public void AddFileData(string FilePath) 
         {
             FileInfo FI = new FileInfo(FilePath);
-            Files.Add(new FileData(GetRelativePathFromLocal(FilePath), CalculateFileHash(FilePath), FI.LastWriteTime));
+            Files.Add(new FileData(GetRelativePathFromLocal(FilePath), CalculateFileHash(FilePath), FI.LastWriteTime, FI.Length));
         }
 
         /// <summary>
@@ -110,6 +113,9 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// <returns></returns>
         private string CalculateFileHash(string FileName) 
         {
+            if(_md5 == null)
+                _md5 = MD5.Create();
+
             using (var stream = File.OpenRead(FileName))
             {
                 return BitConverter.ToString(_md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
@@ -189,6 +195,11 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         public bool CheckFileExistanceByRelativePath(string RelativePath) 
         {
             return Files.FindIndex(x => x.RelativePath == RelativePath) != - 1;
+        }
+
+        public void SaveHashes() 
+        {
+           FhsksIO.WriteDirectoryDataToFile(this, FhsksIO.GetCorrespondingFhsksFilePath(this.RootPath));
         }
     }
 }

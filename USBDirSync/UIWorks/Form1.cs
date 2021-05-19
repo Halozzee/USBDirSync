@@ -13,6 +13,7 @@ using USBDirSync.FileSystemWorks;
 using USBDirSync.FileSystemWorks.DataStructures;
 using USBDirSync.FileSystemWorks.Enums;
 using USBDirSync.StorageWorks;
+using USBDirSync.UIWorks;
 
 namespace USBDirSync
 {
@@ -21,30 +22,42 @@ namespace USBDirSync
         public Form1()
         {
             InitializeComponent();
+            LoadPresetsComboBox();
+        }
+
+        private void LoadPresetsComboBox()
+        {
+            PresetsComboBox.Items.Clear();
+            PresetsComboBox.Items.Add("Empty");
+            string[] presentsList = PresetIO.ReadPresetsList();
+            if (presentsList != null && presentsList.Length > 0)
+                PresetsComboBox.Items.AddRange(presentsList);
+            PresetsComboBox.SelectedIndex = 0;
         }
 
         List<SyncData> CurrentSession;
+        PresetData CurrentPD;
         DirectoryData dd1;
         DirectoryData dd2;
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-            dd1 = new DirectoryData(@"1");
-            dd2 = new DirectoryData(@"2");
+            dd1 = new DirectoryData(CurrentPD.SourceDirectoryPath);
+            dd2 = new DirectoryData(CurrentPD.TargetDirectoryPath);
 
             CurrentSession = ConflictSolver.FormConflictFileDataList(dd1, dd2);
 
-            FillTheTable();
+            SyncClassifier.ClassifySyncDatas(CurrentSession, CurrentPD.StatementDataString);
 
-            //ConflictSolver.PrioritizeConflictFileDataListAll(ans, FileSystemWorks.Enums.SyncPriority.Target);
-            //SynchronizationExecuter.SynchronizeConflict(ans, dd1, dd2);
+            FillTheTable();
         }
 
         private void FillTheTable() 
         {
+            dataGridView1.Rows.Clear();
             foreach (var item in CurrentSession)
             {
-                dataGridView1.Rows.Add(item.SAS.ToString(), item.SP.ToString(), item.SCS.ToString(), item.FD.RelativePath);
+                dataGridView1.Rows.Add(item.SAS.ToString(), item.SD.ToString(), item.SCS.ToString(), item.FD.RelativePath);
             }
         }
 
@@ -81,8 +94,34 @@ namespace USBDirSync
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SynchronizationExecuter.accessOption = SyncExecAccessPermit.AccessToBoth;
-            SynchronizationExecuter.SynchronizeConflict(CurrentSession, dd1, dd2);
+            SyncExecuter.accessOption = SyncShareAllowanceNonExistnant.ShareToBoth;
+            SyncExecuter.SynchronizeConflict(CurrentSession, dd1, dd2);
+        }
+
+        private void PresetsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(((string)PresetsComboBox.SelectedItem) != "Empty")
+                CurrentPD = PresetIO.ReadDirectoryDataFromFile((string)PresetsComboBox.SelectedItem);
+        }
+
+        private void MakePresetBtn_Click(object sender, EventArgs e)
+        {
+            PresetMakingForm pmf = new PresetMakingForm();
+
+            if (pmf.ShowDialog() == DialogResult.OK)
+            {
+                LoadPresetsComboBox();
+            }
+        }
+
+        private void DeletePresetBtn_Click(object sender, EventArgs e)
+        {
+            if (((string)PresetsComboBox.SelectedItem) != "Empty")
+            {
+                File.Delete((string)PresetsComboBox.SelectedItem);
+                PresetsComboBox.Items.Remove(PresetsComboBox.SelectedItem);
+                PresetsComboBox.SelectedIndex = 0;
+            }
         }
     }
 }

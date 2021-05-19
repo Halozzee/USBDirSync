@@ -50,17 +50,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystemWorks\DataStructures\DirectoryData.cs" />
+    <Compile Include="FileSystemWorks\DataStructures\StatementData.cs" />
+    <Compile Include="FileSystemWorks\DataStructures\SyncRule.cs" />
     <Compile Include="FileSystemWorks\Enums\SyncActionState.cs" />
     <Compile Include="FileSystemWorks\Enums\SyncConflictState.cs" />
-    <Compile Include="FileSystemWorks\Enums\SyncExecAccessPermit.cs" />
-    <Compile Include="FileSystemWorks\Enums\SyncPriority.cs" />
+    <Compile Include="FileSystemWorks\Enums\SyncShareAllowanceNonExistnant.cs" />
+    <Compile Include="FileSystemWorks\Enums\SyncDirection.cs" />
     <Compile Include="FileSystemWorks\DataStructures\SyncData.cs" />
     <Compile Include="FileSystemWorks\ConflictSolver.cs" />
-    <Compile Include="FileSystemWorks\SynchronizationExecuter.cs" />
+    <Compile Include="FileSystemWorks\SyncClassifier.cs" />
+    <Compile Include="FileSystemWorks\SyncExecuter.cs" />
     <Compile Include="StorageWorks\Enums\LoadedFileStatus.cs" />
     <Compile Include="FileSystemWorks\DataStructures\FileData.cs" />
     <Compile Include="StorageWorks\FhsksIO.cs" />
     <Compile Include="StorageWorks\FileStatusLoader.cs" />
+    <Compile Include="StorageWorks\PresetData.cs" />
+    <Compile Include="StorageWorks\PresetIO.cs" />
     <Compile Include="UIWorks\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +74,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIWorks\PresetMakingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIWorks\PresetMakingForm.Designer.cs">
+      <DependentUpon>PresetMakingForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="UIWorks\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,6 +92,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UIWorks\PresetMakingForm.resx">
+      <DependentUpon>PresetMakingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

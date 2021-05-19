@@ -11,7 +11,7 @@ namespace USBDirSync.FileSystemWorks.Enums
     /// For example, when sharing file, if the Source priority is set and file is older in Source than in Target, no matter what
     /// the Source version of the file will be shared.
     /// </summary>
-    public enum SyncPriority
+    public enum SyncDirection
     {
         None,
         Source,
