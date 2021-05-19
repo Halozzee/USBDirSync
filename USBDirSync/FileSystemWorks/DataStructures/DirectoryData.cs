@@ -26,13 +26,12 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// <summary>
         /// The instance of MD5 hash algorithm hash taker.
         /// </summary>
-        private readonly MD5 _md5;
+        private MD5 _md5;
 
         public DirectoryData() { }
 
         public DirectoryData(string RootPath)
         {
-            this._md5 = MD5.Create();
             RootPath = MakePathEndSlash(RootPath);
 
             this.RootPath = RootPath;
@@ -114,6 +113,9 @@ namespace USBDirSync.FileSystemWorks.DataStructures
         /// <returns></returns>
         private string CalculateFileHash(string FileName) 
         {
+            if(_md5 == null)
+                _md5 = MD5.Create();
+
             using (var stream = File.OpenRead(FileName))
             {
                 return BitConverter.ToString(_md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();

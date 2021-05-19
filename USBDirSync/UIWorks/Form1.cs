@@ -113,5 +113,15 @@ namespace USBDirSync
                 LoadPresetsComboBox();
             }
         }
+
+        private void DeletePresetBtn_Click(object sender, EventArgs e)
+        {
+            if (((string)PresetsComboBox.SelectedItem) != "Empty")
+            {
+                File.Delete((string)PresetsComboBox.SelectedItem);
+                PresetsComboBox.Items.Remove(PresetsComboBox.SelectedItem);
+                PresetsComboBox.SelectedIndex = 0;
+            }
+        }
     }
 }
