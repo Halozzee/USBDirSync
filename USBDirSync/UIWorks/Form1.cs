@@ -14,6 +14,7 @@ using USBDirSync.FileSystemWorks.DataStructures;
 using USBDirSync.FileSystemWorks.Enums;
 using USBDirSync.StorageWorks;
 using USBDirSync.UIWorks;
+using USBDirSync.USBWorks;
 
 namespace USBDirSync
 {
@@ -23,6 +24,7 @@ namespace USBDirSync
         {
             InitializeComponent();
             LoadPresetsComboBox();
+            USBConnectionNotifier.Initialize();
         }
 
         private void LoadPresetsComboBox()
@@ -101,7 +103,7 @@ namespace USBDirSync
         private void PresetsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(((string)PresetsComboBox.SelectedItem) != "Empty")
-                CurrentPD = PresetIO.ReadDirectoryDataFromFile((string)PresetsComboBox.SelectedItem);
+                CurrentPD = PresetIO.ReadPresetDataFromFile((string)PresetsComboBox.SelectedItem);
         }
 
         private void MakePresetBtn_Click(object sender, EventArgs e)
@@ -122,6 +124,18 @@ namespace USBDirSync
                 PresetsComboBox.Items.Remove(PresetsComboBox.SelectedItem);
                 PresetsComboBox.SelectedIndex = 0;
             }
+        }
+
+        private void MakeUSBSetupBtn_Click(object sender, EventArgs e)
+        {
+            USBToPresetMakingForm UPMF = new USBToPresetMakingForm();
+
+            UPMF.ShowDialog();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -43,6 +43,7 @@ namespace USBDirSync
             this.PresetsComboBox = new System.Windows.Forms.ComboBox();
             this.MakePresetBtn = new System.Windows.Forms.Button();
             this.DeletePresetBtn = new System.Windows.Forms.Button();
+            this.MakeUSBSetupBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,9 +159,9 @@ namespace USBDirSync
             // 
             // MakePresetBtn
             // 
-            this.MakePresetBtn.Location = new System.Drawing.Point(629, 399);
+            this.MakePresetBtn.Location = new System.Drawing.Point(568, 400);
             this.MakePresetBtn.Name = "MakePresetBtn";
-            this.MakePresetBtn.Size = new System.Drawing.Size(83, 28);
+            this.MakePresetBtn.Size = new System.Drawing.Size(83, 38);
             this.MakePresetBtn.TabIndex = 10;
             this.MakePresetBtn.Text = "Make preset";
             this.MakePresetBtn.UseVisualStyleBackColor = true;
@@ -176,11 +177,22 @@ namespace USBDirSync
             this.DeletePresetBtn.UseVisualStyleBackColor = true;
             this.DeletePresetBtn.Click += new System.EventHandler(this.DeletePresetBtn_Click);
             // 
+            // MakeUSBSetupBtn
+            // 
+            this.MakeUSBSetupBtn.Location = new System.Drawing.Point(657, 400);
+            this.MakeUSBSetupBtn.Name = "MakeUSBSetupBtn";
+            this.MakeUSBSetupBtn.Size = new System.Drawing.Size(79, 38);
+            this.MakeUSBSetupBtn.TabIndex = 12;
+            this.MakeUSBSetupBtn.Text = "Make USB setup";
+            this.MakeUSBSetupBtn.UseVisualStyleBackColor = true;
+            this.MakeUSBSetupBtn.Click += new System.EventHandler(this.MakeUSBSetupBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 450);
+            this.Controls.Add(this.MakeUSBSetupBtn);
             this.Controls.Add(this.DeletePresetBtn);
             this.Controls.Add(this.MakePresetBtn);
             this.Controls.Add(this.PresetsComboBox);
@@ -193,6 +205,7 @@ namespace USBDirSync
             this.Controls.Add(this.TestBtn);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -213,6 +226,7 @@ namespace USBDirSync
         private System.Windows.Forms.ComboBox PresetsComboBox;
         private System.Windows.Forms.Button MakePresetBtn;
         private System.Windows.Forms.Button DeletePresetBtn;
+        private System.Windows.Forms.Button MakeUSBSetupBtn;
     }
 }
 

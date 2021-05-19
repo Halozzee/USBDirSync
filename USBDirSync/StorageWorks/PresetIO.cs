@@ -10,17 +10,17 @@ namespace USBDirSync.StorageWorks
 {
     public static class PresetIO
     {
-        public static PresetData ReadDirectoryDataFromFile(string StorageFilePath)
+        public static PresetData ReadPresetDataFromFile(string PresetFilePath)
         {
-            return JsonConvert.DeserializeObject<PresetData>(File.ReadAllText(StorageFilePath));
+            return JsonConvert.DeserializeObject<PresetData>(File.ReadAllText(PresetFilePath));
         }
 
-        public static void WriteDirectoryDataToFile(PresetData PD, string StorageFilePath)
+        public static void WritePresetDataToFile(PresetData PD, string PresetFilePath)
         {
             if (!Directory.Exists("Presets"))
                 Directory.CreateDirectory("Presets");
 
-            File.WriteAllText(StorageFilePath, JsonConvert.SerializeObject(PD));
+            File.WriteAllText(PresetFilePath, JsonConvert.SerializeObject(PD));
         }
 
         public static string[] ReadPresetsList() 

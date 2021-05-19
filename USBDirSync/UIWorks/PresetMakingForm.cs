@@ -22,7 +22,7 @@ namespace USBDirSync.UIWorks
         {
             PresetData PD = new PresetData(SourcePathTextBox.Text, TargetPathTextBox.Text, StatementDataStringTextBox.Text);
 
-            PresetIO.WriteDirectoryDataToFile(PD, "Presets\\" + PresetNameTextBox.Text + ".json");
+            PresetIO.WritePresetDataToFile(PD, "Presets\\" + PresetNameTextBox.Text + ".json");
 
             this.DialogResult = DialogResult.OK;
             this.Close();

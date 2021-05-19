@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,9 @@
     <Compile Include="StorageWorks\FileStatusLoader.cs" />
     <Compile Include="StorageWorks\PresetData.cs" />
     <Compile Include="StorageWorks\PresetIO.cs" />
+    <Compile Include="USBWorks\USBDevicesReader.cs" />
+    <Compile Include="StorageWorks\USBToPresetData.cs" />
+    <Compile Include="StorageWorks\USBToPresetIO.cs" />
     <Compile Include="UIWorks\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +84,14 @@
     <Compile Include="UIWorks\PresetMakingForm.Designer.cs">
       <DependentUpon>PresetMakingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIWorks\USBToPresetMakingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIWorks\USBToPresetMakingForm.Designer.cs">
+      <DependentUpon>USBToPresetMakingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USBWorks\USBConnectedEventArgs.cs" />
+    <Compile Include="USBWorks\USBConnectionNotifier.cs" />
     <EmbeddedResource Include="UIWorks\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +107,9 @@
     <EmbeddedResource Include="UIWorks\PresetMakingForm.resx">
       <DependentUpon>PresetMakingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIWorks\USBToPresetMakingForm.resx">
+      <DependentUpon>USBToPresetMakingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -109,8 +124,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="USBWorks\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
