@@ -41,6 +41,7 @@ namespace USBDirSync.UIWorks
             this.DevicesComboBox.Name = "DevicesComboBox";
             this.DevicesComboBox.Size = new System.Drawing.Size(153, 21);
             this.DevicesComboBox.TabIndex = 0;
+            this.DevicesComboBox.SelectedIndexChanged += new System.EventHandler(this.DevicesComboBox_SelectedIndexChanged);
             // 
             // PresetsComboBox
             // 
@@ -64,7 +65,7 @@ namespace USBDirSync.UIWorks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 500);
+            this.ClientSize = new System.Drawing.Size(464, 42);
             this.Controls.Add(this.MakeLinkBtn);
             this.Controls.Add(this.PresetsComboBox);
             this.Controls.Add(this.DevicesComboBox);

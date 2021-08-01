@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace USBDirSync.UIWorks
 {
     public partial class USBToPresetMakingForm : Form
     {
+        List<KeyValuePair<string, string>> _devicenameToPresetname = new List<KeyValuePair<string, string>>();
         List<USBConnectedEventArgs> _uSBDevices;
 
         public USBToPresetMakingForm()
@@ -27,6 +29,15 @@ namespace USBDirSync.UIWorks
             foreach (var item in _uSBDevices)
             {
                 DevicesComboBox.Items.Add(item.USBDeviceName);
+                if (File.Exists("USBToPreset\\" + item.USBDeviceName + "&&" + item.USBDeviceID.GetHashCode() + ".json"))
+                {
+                    USBToPresetData UDP = USBToPresetIO.ReadUSBToPresetDataFromFile("USBToPreset\\" + item.USBDeviceName + "&&" + item.USBDeviceID.GetHashCode() + ".json");
+                    _devicenameToPresetname.Add(new KeyValuePair<string, string>(item.USBDeviceName + "&&" + item.USBDeviceID.GetHashCode(), UDP.PresetName));
+                }
+                else
+                {
+                    _devicenameToPresetname.Add(new KeyValuePair<string, string>(item.USBDeviceName + "&&" + item.USBDeviceID.GetHashCode(), "Empty"));
+                }
             }
 
             LoadPresetsComboBox();
@@ -50,7 +61,16 @@ namespace USBDirSync.UIWorks
             UPD.DeviceData.USBDeviceID = _uSBDevices.Find(x => x.USBDeviceName == UPD.DeviceData.USBDeviceName).USBDeviceID;
             UPD.PresetName = (string)PresetsComboBox.SelectedItem;
 
-            USBToPresetIO.WriteUSBToPresetDataToFile(UPD, "USBToPreset\\" + UPD.DeviceData.USBDeviceName + ".json");
+            USBToPresetIO.WriteUSBToPresetDataToFile(UPD, "USBToPreset\\" + UPD.DeviceData.USBDeviceName + "&&" + UPD.DeviceData.USBDeviceID.GetHashCode() + ".json");
+
+            _devicenameToPresetname[_devicenameToPresetname.FindIndex(x => x.Key == UPD.DeviceData.USBDeviceName + "&&" + UPD.DeviceData.USBDeviceID.GetHashCode())] 
+                = new KeyValuePair<string, string>(UPD.DeviceData.USBDeviceName + "&&" + UPD.DeviceData.USBDeviceID.GetHashCode(), (string)PresetsComboBox.SelectedItem);
+        }
+
+        private void DevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            KeyValuePair<string, string> selectedDevice = _devicenameToPresetname[DevicesComboBox.SelectedIndex];
+            PresetsComboBox.SelectedIndex = PresetsComboBox.Items.IndexOf(selectedDevice.Value);
         }
     }
 }

@@ -161,13 +161,13 @@ namespace USBDirSync.FileSystemWorks
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
-                        syncData.SD = SyncDirection.Target;
+                        syncData.SD = SyncDirection.Source;
                         syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
-                        syncData.SD = SyncDirection.Target;
+                        syncData.SD = SyncDirection.Source;
                         syncData.WasTriggeredBySyncRule = true;
                     }
                 }
@@ -189,13 +189,13 @@ namespace USBDirSync.FileSystemWorks
                     else if (syncRule.Action == "Shr")
                     {
                         syncData.SAS = SyncActionState.Share;
-                        syncData.SD = SyncDirection.Source;
+                        syncData.SD = SyncDirection.Target;
                         syncData.WasTriggeredBySyncRule = true;
                     }
                     else if (syncRule.Action == "Cpy")
                     {
                         syncData.SAS = SyncActionState.Copy;
-                        syncData.SD = SyncDirection.Source;
+                        syncData.SD = SyncDirection.Target;
                         syncData.WasTriggeredBySyncRule = true;
                     }
                 }

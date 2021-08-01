@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigurations.cs" />
     <Compile Include="FileSystemWorks\DataStructures\DirectoryData.cs" />
     <Compile Include="FileSystemWorks\DataStructures\StatementData.cs" />
     <Compile Include="FileSystemWorks\DataStructures\SyncRule.cs" />

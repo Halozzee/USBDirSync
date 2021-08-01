@@ -33,6 +33,9 @@ namespace USBDirSync
         {
             int index = PresetsComboBox.Items.IndexOf(e.AppliedPresetName);
 
+            if (index == -1)
+                return;
+
             PresetsComboBox.Invoke(((MethodInvoker)delegate
             {
                 PresetsComboBox.SelectedIndex = index;

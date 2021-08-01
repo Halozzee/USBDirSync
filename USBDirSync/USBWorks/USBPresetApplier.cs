@@ -26,9 +26,9 @@ namespace USBDirSync.USBWorks
         {
             if (Directory.Exists("USBToPreset")) 
             {
-                if (File.Exists("USBToPreset\\"+ e.USBDeviceName + ".json"))
+                if (File.Exists("USBToPreset\\"+ e.USBDeviceName + "&&" + e.USBDeviceID.GetHashCode() + ".json"))
                 {
-                    USBToPresetData UDP = USBToPresetIO.ReadUSBToPresetDataFromFile("USBToPreset\\" + e.USBDeviceName + ".json");
+                    USBToPresetData UDP = USBToPresetIO.ReadUSBToPresetDataFromFile("USBToPreset\\" + e.USBDeviceName + "&&" + e.USBDeviceID.GetHashCode() + ".json");
                     PresetAppliedEventArgs PAEA = new PresetAppliedEventArgs();
                     PAEA.AppliedPresetName = UDP.PresetName;
                     OnPresetApplied(PAEA);

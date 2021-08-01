@@ -49,11 +49,11 @@ namespace USBDirSync
             // 
             // TestBtn
             // 
-            this.TestBtn.Location = new System.Drawing.Point(594, 13);
+            this.TestBtn.Location = new System.Drawing.Point(568, 169);
             this.TestBtn.Name = "TestBtn";
-            this.TestBtn.Size = new System.Drawing.Size(119, 26);
+            this.TestBtn.Size = new System.Drawing.Size(83, 26);
             this.TestBtn.TabIndex = 2;
-            this.TestBtn.Text = "TestBtn";
+            this.TestBtn.Text = "Find conflicts";
             this.TestBtn.UseVisualStyleBackColor = true;
             this.TestBtn.Click += new System.EventHandler(this.TestBtn_Click);
             // 
@@ -68,11 +68,11 @@ namespace USBDirSync
             this.SyncPriorityCol,
             this.SyncConflictStateCol,
             this.FileRelPathCol});
-            this.dataGridView1.Location = new System.Drawing.Point(19, 78);
+            this.dataGridView1.Location = new System.Drawing.Point(19, 14);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(543, 331);
+            this.dataGridView1.Size = new System.Drawing.Size(543, 360);
             this.dataGridView1.TabIndex = 3;
             // 
             // SyncActionStateCol
@@ -97,7 +97,7 @@ namespace USBDirSync
             // 
             // skipBtn
             // 
-            this.skipBtn.Location = new System.Drawing.Point(626, 78);
+            this.skipBtn.Location = new System.Drawing.Point(615, 13);
             this.skipBtn.Name = "skipBtn";
             this.skipBtn.Size = new System.Drawing.Size(75, 23);
             this.skipBtn.TabIndex = 4;
@@ -107,7 +107,7 @@ namespace USBDirSync
             // 
             // deleteBtn
             // 
-            this.deleteBtn.Location = new System.Drawing.Point(626, 107);
+            this.deleteBtn.Location = new System.Drawing.Point(615, 42);
             this.deleteBtn.Name = "deleteBtn";
             this.deleteBtn.Size = new System.Drawing.Size(75, 23);
             this.deleteBtn.TabIndex = 5;
@@ -117,7 +117,7 @@ namespace USBDirSync
             // 
             // shareBtn
             // 
-            this.shareBtn.Location = new System.Drawing.Point(626, 136);
+            this.shareBtn.Location = new System.Drawing.Point(615, 71);
             this.shareBtn.Name = "shareBtn";
             this.shareBtn.Size = new System.Drawing.Size(75, 23);
             this.shareBtn.TabIndex = 6;
@@ -127,7 +127,7 @@ namespace USBDirSync
             // 
             // copyBtn
             // 
-            this.copyBtn.Location = new System.Drawing.Point(626, 165);
+            this.copyBtn.Location = new System.Drawing.Point(615, 100);
             this.copyBtn.Name = "copyBtn";
             this.copyBtn.Size = new System.Drawing.Size(75, 23);
             this.copyBtn.TabIndex = 7;
@@ -137,11 +137,11 @@ namespace USBDirSync
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(626, 215);
+            this.button1.Location = new System.Drawing.Point(657, 169);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(79, 26);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Go";
+            this.button1.Text = "Solve";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -151,7 +151,7 @@ namespace USBDirSync
             this.PresetsComboBox.FormattingEnabled = true;
             this.PresetsComboBox.Items.AddRange(new object[] {
             "Empty"});
-            this.PresetsComboBox.Location = new System.Drawing.Point(568, 299);
+            this.PresetsComboBox.Location = new System.Drawing.Point(568, 235);
             this.PresetsComboBox.Name = "PresetsComboBox";
             this.PresetsComboBox.Size = new System.Drawing.Size(159, 21);
             this.PresetsComboBox.TabIndex = 9;
@@ -159,7 +159,7 @@ namespace USBDirSync
             // 
             // MakePresetBtn
             // 
-            this.MakePresetBtn.Location = new System.Drawing.Point(568, 400);
+            this.MakePresetBtn.Location = new System.Drawing.Point(568, 336);
             this.MakePresetBtn.Name = "MakePresetBtn";
             this.MakePresetBtn.Size = new System.Drawing.Size(83, 38);
             this.MakePresetBtn.TabIndex = 10;
@@ -169,7 +169,7 @@ namespace USBDirSync
             // 
             // DeletePresetBtn
             // 
-            this.DeletePresetBtn.Location = new System.Drawing.Point(604, 326);
+            this.DeletePresetBtn.Location = new System.Drawing.Point(604, 262);
             this.DeletePresetBtn.Name = "DeletePresetBtn";
             this.DeletePresetBtn.Size = new System.Drawing.Size(86, 22);
             this.DeletePresetBtn.TabIndex = 11;
@@ -179,7 +179,7 @@ namespace USBDirSync
             // 
             // MakeUSBSetupBtn
             // 
-            this.MakeUSBSetupBtn.Location = new System.Drawing.Point(657, 400);
+            this.MakeUSBSetupBtn.Location = new System.Drawing.Point(657, 336);
             this.MakeUSBSetupBtn.Name = "MakeUSBSetupBtn";
             this.MakeUSBSetupBtn.Size = new System.Drawing.Size(79, 38);
             this.MakeUSBSetupBtn.TabIndex = 12;
@@ -191,7 +191,7 @@ namespace USBDirSync
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(739, 450);
+            this.ClientSize = new System.Drawing.Size(739, 381);
             this.Controls.Add(this.MakeUSBSetupBtn);
             this.Controls.Add(this.DeletePresetBtn);
             this.Controls.Add(this.MakePresetBtn);
@@ -204,7 +204,7 @@ namespace USBDirSync
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.TestBtn);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "USBDirSync";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
