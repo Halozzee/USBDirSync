@@ -29,22 +29,22 @@ namespace USBDirSync
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TestBtn = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.SyncActionStateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SyncPriorityCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SyncConflictStateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileRelPathCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skipBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
-            this.shareBtn = new System.Windows.Forms.Button();
+            this.ShareSourceBtn = new System.Windows.Forms.Button();
             this.copyBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.PresetsComboBox = new System.Windows.Forms.ComboBox();
             this.MakePresetBtn = new System.Windows.Forms.Button();
-            this.DeletePresetBtn = new System.Windows.Forms.Button();
             this.MakeUSBSetupBtn = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.ConflictDataGridView = new System.Windows.Forms.DataGridView();
+            this.SourceFileNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SyncDirectionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TargetFileNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShareTargetBtn = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.ConflictDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // TestBtn
@@ -56,44 +56,6 @@ namespace USBDirSync
             this.TestBtn.Text = "Find conflicts";
             this.TestBtn.UseVisualStyleBackColor = true;
             this.TestBtn.Click += new System.EventHandler(this.TestBtn_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SyncActionStateCol,
-            this.SyncPriorityCol,
-            this.SyncConflictStateCol,
-            this.FileRelPathCol});
-            this.dataGridView1.Location = new System.Drawing.Point(19, 14);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(543, 360);
-            this.dataGridView1.TabIndex = 3;
-            // 
-            // SyncActionStateCol
-            // 
-            this.SyncActionStateCol.HeaderText = "SyncActionState";
-            this.SyncActionStateCol.Name = "SyncActionStateCol";
-            // 
-            // SyncPriorityCol
-            // 
-            this.SyncPriorityCol.HeaderText = "SyncPriority";
-            this.SyncPriorityCol.Name = "SyncPriorityCol";
-            // 
-            // SyncConflictStateCol
-            // 
-            this.SyncConflictStateCol.HeaderText = "SyncConflictState";
-            this.SyncConflictStateCol.Name = "SyncConflictStateCol";
-            // 
-            // FileRelPathCol
-            // 
-            this.FileRelPathCol.HeaderText = "File Rel Path";
-            this.FileRelPathCol.Name = "FileRelPathCol";
             // 
             // skipBtn
             // 
@@ -115,15 +77,15 @@ namespace USBDirSync
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
-            // shareBtn
+            // ShareSourceBtn
             // 
-            this.shareBtn.Location = new System.Drawing.Point(615, 71);
-            this.shareBtn.Name = "shareBtn";
-            this.shareBtn.Size = new System.Drawing.Size(75, 23);
-            this.shareBtn.TabIndex = 6;
-            this.shareBtn.Text = "Share";
-            this.shareBtn.UseVisualStyleBackColor = true;
-            this.shareBtn.Click += new System.EventHandler(this.shareBtn_Click);
+            this.ShareSourceBtn.Location = new System.Drawing.Point(554, 71);
+            this.ShareSourceBtn.Name = "ShareSourceBtn";
+            this.ShareSourceBtn.Size = new System.Drawing.Size(89, 23);
+            this.ShareSourceBtn.TabIndex = 6;
+            this.ShareSourceBtn.Text = "Share Source";
+            this.ShareSourceBtn.UseVisualStyleBackColor = true;
+            this.ShareSourceBtn.Click += new System.EventHandler(this.ShareSourceBtn_Click);
             // 
             // copyBtn
             // 
@@ -167,16 +129,6 @@ namespace USBDirSync
             this.MakePresetBtn.UseVisualStyleBackColor = true;
             this.MakePresetBtn.Click += new System.EventHandler(this.MakePresetBtn_Click);
             // 
-            // DeletePresetBtn
-            // 
-            this.DeletePresetBtn.Location = new System.Drawing.Point(604, 262);
-            this.DeletePresetBtn.Name = "DeletePresetBtn";
-            this.DeletePresetBtn.Size = new System.Drawing.Size(86, 22);
-            this.DeletePresetBtn.TabIndex = 11;
-            this.DeletePresetBtn.Text = "Delete preset";
-            this.DeletePresetBtn.UseVisualStyleBackColor = true;
-            this.DeletePresetBtn.Click += new System.EventHandler(this.DeletePresetBtn_Click);
-            // 
             // MakeUSBSetupBtn
             // 
             this.MakeUSBSetupBtn.Location = new System.Drawing.Point(657, 336);
@@ -187,46 +139,97 @@ namespace USBDirSync
             this.MakeUSBSetupBtn.UseVisualStyleBackColor = true;
             this.MakeUSBSetupBtn.Click += new System.EventHandler(this.MakeUSBSetupBtn_Click);
             // 
+            // ConflictDataGridView
+            // 
+            this.ConflictDataGridView.AllowUserToAddRows = false;
+            this.ConflictDataGridView.AllowUserToDeleteRows = false;
+            this.ConflictDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ConflictDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.ConflictDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ConflictDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SourceFileNameColumn,
+            this.SyncDirectionColumn,
+            this.TargetFileNameColumn});
+            this.ConflictDataGridView.Location = new System.Drawing.Point(19, 42);
+            this.ConflictDataGridView.MultiSelect = false;
+            this.ConflictDataGridView.Name = "ConflictDataGridView";
+            this.ConflictDataGridView.ReadOnly = true;
+            this.ConflictDataGridView.RowHeadersVisible = false;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ConflictDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.ConflictDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ConflictDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ConflictDataGridView.Size = new System.Drawing.Size(520, 331);
+            this.ConflictDataGridView.TabIndex = 13;
+            this.ConflictDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.SourceDirDataGridView_CellContentClick);
+            // 
+            // SourceFileNameColumn
+            // 
+            this.SourceFileNameColumn.HeaderText = "Source File Name";
+            this.SourceFileNameColumn.Name = "SourceFileNameColumn";
+            this.SourceFileNameColumn.ReadOnly = true;
+            // 
+            // SyncDirectionColumn
+            // 
+            this.SyncDirectionColumn.HeaderText = "Direction";
+            this.SyncDirectionColumn.Name = "SyncDirectionColumn";
+            this.SyncDirectionColumn.ReadOnly = true;
+            // 
+            // TargetFileNameColumn
+            // 
+            this.TargetFileNameColumn.HeaderText = "Target File Name";
+            this.TargetFileNameColumn.Name = "TargetFileNameColumn";
+            this.TargetFileNameColumn.ReadOnly = true;
+            // 
+            // ShareTargetBtn
+            // 
+            this.ShareTargetBtn.Location = new System.Drawing.Point(647, 71);
+            this.ShareTargetBtn.Name = "ShareTargetBtn";
+            this.ShareTargetBtn.Size = new System.Drawing.Size(89, 23);
+            this.ShareTargetBtn.TabIndex = 14;
+            this.ShareTargetBtn.Text = "Share Target";
+            this.ShareTargetBtn.UseVisualStyleBackColor = true;
+            this.ShareTargetBtn.Click += new System.EventHandler(this.ShareTargetBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 381);
+            this.Controls.Add(this.ShareTargetBtn);
+            this.Controls.Add(this.ConflictDataGridView);
             this.Controls.Add(this.MakeUSBSetupBtn);
-            this.Controls.Add(this.DeletePresetBtn);
             this.Controls.Add(this.MakePresetBtn);
             this.Controls.Add(this.PresetsComboBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.copyBtn);
-            this.Controls.Add(this.shareBtn);
+            this.Controls.Add(this.ShareSourceBtn);
             this.Controls.Add(this.deleteBtn);
             this.Controls.Add(this.skipBtn);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.TestBtn);
             this.Name = "Form1";
             this.Text = "USBDirSync";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ConflictDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Button TestBtn;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SyncActionStateCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SyncPriorityCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SyncConflictStateCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileRelPathCol;
         private System.Windows.Forms.Button skipBtn;
         private System.Windows.Forms.Button deleteBtn;
-        private System.Windows.Forms.Button shareBtn;
+        private System.Windows.Forms.Button ShareSourceBtn;
         private System.Windows.Forms.Button copyBtn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox PresetsComboBox;
         private System.Windows.Forms.Button MakePresetBtn;
-        private System.Windows.Forms.Button DeletePresetBtn;
         private System.Windows.Forms.Button MakeUSBSetupBtn;
+        private System.Windows.Forms.DataGridView ConflictDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SourceFileNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SyncDirectionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TargetFileNameColumn;
+        private System.Windows.Forms.Button ShareTargetBtn;
     }
 }
 

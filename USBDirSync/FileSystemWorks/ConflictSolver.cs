@@ -31,7 +31,13 @@ namespace USBDirSync.FileSystemWorks
                 if (TargetData.CheckFileExistanceByRelativePath(item.RelativePath))
                 {
                     if (item.Hash == TargetData.FindFileGetFileHash(item.RelativePath))
+                    {
+                        if (AppConfigurations.EnlistUpToDateConflicts)
+                        {
+                            result.Add(new SyncData(item, SyncConflictState.UpToDate));
+                        }
                         continue;
+                    }
 
                     SyncConflictState currentItemSCS = CompareFileDateTimeToState(item, TargetData.FindFileGetFileData(item.RelativePath));
                     currentItemSCS |= CompareFileSizesToState(item, TargetData.FindFileGetFileData(item.RelativePath));

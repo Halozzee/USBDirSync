@@ -68,6 +68,12 @@
     <Compile Include="StorageWorks\FileStatusLoader.cs" />
     <Compile Include="StorageWorks\PresetData.cs" />
     <Compile Include="StorageWorks\PresetIO.cs" />
+    <Compile Include="UIWorks\PresetWorkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIWorks\PresetWorkForm.Designer.cs">
+      <DependentUpon>PresetWorkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="USBWorks\PresetAppliedEventArgs.cs" />
     <Compile Include="USBWorks\USBDevicesReader.cs" />
     <Compile Include="StorageWorks\USBToPresetData.cs" />
@@ -80,12 +86,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIWorks\PresetMakingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UIWorks\PresetMakingForm.Designer.cs">
-      <DependentUpon>PresetMakingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UIWorks\USBToPresetMakingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,8 +107,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UIWorks\PresetMakingForm.resx">
-      <DependentUpon>PresetMakingForm.cs</DependentUpon>
+    <EmbeddedResource Include="UIWorks\PresetWorkForm.resx">
+      <DependentUpon>PresetWorkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIWorks\USBToPresetMakingForm.resx">
       <DependentUpon>USBToPresetMakingForm.cs</DependentUpon>

@@ -25,5 +25,17 @@ namespace USBDirSync.StorageWorks
 
             File.WriteAllText(PresetFilePath, JsonConvert.SerializeObject(PD));
         }
+
+        /// <summary>
+        /// Function that reads all Preset files from the directory.
+        /// </summary>
+        /// <returns>Array of filenames with relative path.</returns>
+        public static string[] ReadUSBToPresetList()
+        {
+            if (Directory.Exists("USBToPreset"))
+                return Directory.GetFiles("USBToPreset");
+            else
+                return null;
+        }
     }
 }

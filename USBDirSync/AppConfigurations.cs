@@ -8,5 +8,6 @@ namespace USBDirSync
 {
     public static class AppConfigurations
     {
+        public static bool EnlistUpToDateConflicts = true;
     }
 }
