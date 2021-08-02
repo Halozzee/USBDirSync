@@ -59,7 +59,7 @@ namespace USBDirSync
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-            FindConflicts(CurrentPD, false);
+            FindConflicts(CurrentPD, true);
 
             FillTheTable();
         }
@@ -251,6 +251,9 @@ namespace USBDirSync
             if (PWF.ShowDialog() == DialogResult.OK)
             {
                 LoadPresetsComboBox();
+                if (((string)PresetsComboBox.SelectedItem) != "Empty")
+                    if(File.Exists((string)PresetsComboBox.SelectedItem))
+                        CurrentPD = PresetIO.ReadPresetDataFromFile((string)PresetsComboBox.SelectedItem);
             }
         }
 

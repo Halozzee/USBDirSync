@@ -74,7 +74,7 @@ namespace USBDirSync.FileSystemWorks
      *          This is OVERRIDED BY 1.
      *      2 - ! *.txt #32#LMT:(S>T)->Shr(T)   -- Share files which are selected by the Last Modified Time (newer in Source) from Source to Target. 
      *  
-     *      And if you need to do 1st instead of 2 just change 32 to 31 and vise versa.
+     *      And if you need to do 1st instead of 2nd just change 32 to 31 and vise versa.
      *      
      *      Important thing is that 
      *      ! *.txt LMT:(S<T)->Shr(T) DOES NOT OVERRIDE BOTH 1 AND 2.
@@ -94,7 +94,7 @@ namespace USBDirSync.FileSystemWorks
     /// </summary>
     public static class SyncClassifier
     {
-        private static List<string> ExtractStatements(string FileContent)
+        public static List<string> ExtractStatements(string FileContent)
         {
             string[] statements = FileContent.Split(new string[] { "!" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -106,7 +106,7 @@ namespace USBDirSync.FileSystemWorks
             return statements.ToList();
         }
 
-        private static List<StatementData> ExtractStatementsDataFromStatementStringList(List<string> StatementStringList) 
+        public static List<StatementData> ExtractStatementsDataFromStatementStringList(List<string> StatementStringList) 
         {
             List<StatementData> statementDatas = new List<StatementData>();
 
@@ -340,7 +340,11 @@ namespace USBDirSync.FileSystemWorks
             HashSet<string> usedFileMasks = new HashSet<string>();
             bool[] fileMaskPassed = new bool[syncs.Count];
             StatementData forLeftStatementData = statementDatas[statementDatas.Count - 1];
-            statementDatas.RemoveAt(statementDatas.Count - 1);
+
+            if (forLeftStatementData.FileMask == "ForLeft")
+                statementDatas.RemoveAt(statementDatas.Count - 1);
+            else
+                forLeftStatementData = null;
 
             for (int i = 0; i < syncs.Count; i++)
             {
@@ -367,17 +371,20 @@ namespace USBDirSync.FileSystemWorks
                 }
             }
 
-            for (int i = 0; i < syncs.Count; i++)
+            if (forLeftStatementData != null)
             {
-                if (syncs[i].WasTriggeredBySyncRule /*<= Might be reworked =>*/ || fileMaskPassed[i])
-                    continue;
-
-                for (int k = 0; k < forLeftStatementData.SyncRules.Count; k++)
+                for (int i = 0; i < syncs.Count; i++)
                 {
-                    if (syncs[i].WasTriggeredBySyncRule)
-                        break;
+                    if (syncs[i].WasTriggeredBySyncRule /*<= Might be reworked =>*/ || fileMaskPassed[i])
+                        continue;
 
-                    RunRule(forLeftStatementData.SyncRules[k], syncs[i]);
+                    for (int k = 0; k < forLeftStatementData.SyncRules.Count; k++)
+                    {
+                        if (syncs[i].WasTriggeredBySyncRule)
+                            break;
+
+                        RunRule(forLeftStatementData.SyncRules[k], syncs[i]);
+                    }
                 }
             }
         }
